@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameCollectionApp.Models.Games;
+using GameCollectionApp.Orchestrator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,19 @@ namespace GameCollectionApp.Controllers
 {
     public class HomeController : Controller
     {
+        readonly IGetGameCollectionOrchestrator getGameCollectionOrchestrator;
+
+        public HomeController(IGetGameCollectionOrchestrator getGameCollectionOrchestrator)
+        {
+            this.getGameCollectionOrchestrator = getGameCollectionOrchestrator;
+        }
+
         public ActionResult Index()
         {
-            return View();
+            Game games = new Game();
+            games = getGameCollectionOrchestrator.GetGame();
+
+            return View("Index", games);
         }
 
         public ActionResult About()
